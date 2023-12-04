@@ -14,7 +14,8 @@ def translate_text(text, file_extension: FileExtension, dst_language_code: Langu
         messages=[
             {"role": "system", "content": "You are a translator."},
             {"role": "user", "content": prompt}
-        ]
+        ],
+        temperature=0.0
     )
     response_texts = response.choices[0].message.content
     # if the completion stop by max_tokens, we need to continue the completion
@@ -25,7 +26,8 @@ def translate_text(text, file_extension: FileExtension, dst_language_code: Langu
             messages=[
                 {"role": "system", "content": "You are a translator."},
                 {"role": "user", "content": continuing_prompt}
-            ]
+            ],
+            temperature=0.0
         )
         response_texts += response.choices[0].message.content
         
