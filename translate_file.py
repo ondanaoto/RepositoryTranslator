@@ -6,7 +6,7 @@ from constants import LanguageCode, FileExtension, str_to_language_code, str_to_
 LAST_CHARACTERS = 100
 
 def translate_text(text, file_extension: FileExtension, dst_language_code: LanguageCode, client= OpenAI()):
-    prompt = f"Translate the following `{str(file_extension)}` file into {str(dst_language_code)}:\n{text}"
+    prompt = f"Please translate the following {str(file_extension)} file into {str(dst_language_code)}. In cases where the document is lengthy, it's not necessary to forcibly summarize the entire content. If the translation needs to be cut short due to the document's length, that's perfectly fine. \n\nFile content:\n{text}"
     response_texts = []
     
     response = client.chat.completions.create(
@@ -20,7 +20,7 @@ def translate_text(text, file_extension: FileExtension, dst_language_code: Langu
     response_texts = response.choices[0].message.content
     # if the completion stop by max_tokens, we need to continue the completion
     if response.choices[0].finish_reason == "length":
-        continuing_prompt = f"I would like to have the following `{str(file_extension)}` file translated into {str(dst_language_code)}. Fortunately, it has already been partially translated, and I will provide the last 100 charecters of the translation that has been completed. Please continue translating from where it left off so that the translations are smoothly connected. \n\nFile: {text}\n\nLast {LAST_CHARACTERS} characters:{response_texts[-LAST_CHARACTERS:]}"
+        continuing_prompt = f"I would like to have the following `{str(file_extension)}` file translated into {str(dst_language_code)}. Fortunately, it has already been partially translated, and I will provide the last 100 charecters of the translation that has been completed. Please continue translating from where it left off so that the translations are smoothly connected. In cases where the document is lengthy, it's not necessary to forcibly summarize the entire content. In cases where the document is lengthy, it's not necessary to forcibly summarize the entire content. If the translation needs to be cut short due to the document's length, that's perfectly fine.\n\nFile: {text}\n\nLast {LAST_CHARACTERS} characters:{response_texts[-LAST_CHARACTERS:]}"
         response = client.chat.completions.create(
             model="gpt-4-1106-preview",
             messages=[
