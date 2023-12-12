@@ -3,3 +3,5 @@
 venv/
 
 file_paths.txt
+
+debug.log
