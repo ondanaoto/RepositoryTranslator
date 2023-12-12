@@ -1,15 +1,19 @@
-import os, argparse
+import os
+import sys
+import argparse
 from translate_file import translate_and_save_file
 from constants import str_to_language_code
 from openai import OpenAI
+from loguru import logger
 
 
 def main():
+    logger.remove()
+    logger.add(sys.stderr, level="INFO")
     # parser setup
     parser = argparse.ArgumentParser(description='Translate markdown files')
     parser.add_argument('--replace', action='store_true', help='replace original files')
     parser.add_argument('--language',type=str, default='ja', help='language code to translate to')
-    parser.add_argument('--extensions', nargs='+', type=str, default=['.md'], help='file extensions to translate')
     args = parser.parse_args()
     
     # set up OpenAI client
