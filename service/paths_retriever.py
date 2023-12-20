@@ -17,8 +17,3 @@ class PathRetriever:
         ]
         
         return file_path_list
-            
-    @classmethod
-    def from_file_ext_strs(cls, ext_strs: list[str]) -> "PathRetriever":
-        file_extensions = list(map(FileExtension.from_str, ext_strs))
-        return PathRetriever(file_extensions)
