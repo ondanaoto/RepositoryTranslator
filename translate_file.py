@@ -3,7 +3,7 @@ import sys
 from loguru import logger
 from openai import OpenAI
 import argparse
-from constants import FileExtension, parse_file_extension
+from extensions import FileExtension, parse_file_extension
 from languages import LanguageCode, parse_language_code
 
 LAST_CHARACTERS = 100

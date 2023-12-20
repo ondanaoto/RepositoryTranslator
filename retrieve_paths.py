@@ -1,6 +1,6 @@
 import os, argparse
 from typing import List
-from constants import FileExtension, parse_file_extension
+from extensions import FileExtension, parse_file_extension
 
 def extract_file_paths(directory, file_extension_list: List[FileExtension]) -> None:
     file_path_list = [
