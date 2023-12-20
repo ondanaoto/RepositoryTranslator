@@ -1,14 +1,10 @@
-import os
-import sys
 import argparse
-from openai import OpenAI
-from loguru import logger
 
-from languages import LanguageCode
-import translate_file 
-import rename_path
-from file_repository import FileRepository
-from path_repository import PathRepository
+from domain.languages import LanguageCode
+import service.translate_file as translate_file 
+import service.rename_path as rename_path
+from repository.file_repository import FileRepository
+from repository.path_repository import PathRepository
 
 def main():
     # parser setup

@@ -1,8 +1,9 @@
-import os, argparse
+import os
+import argparse
 from dataclasses import dataclass
 
-from extensions import FileExtension
-from path_repository import PathRepository
+from domain.extensions import FileExtension
+from repository.path_repository import PathRepository
 
 @dataclass(frozen=True)
 class PathRetriever:

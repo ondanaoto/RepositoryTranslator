@@ -1,16 +1,11 @@
 import os
-import sys
 from typing import Any
-from dataclasses import dataclass
 from loguru import logger
-from openai import OpenAI
-import argparse
 
-from languages import LanguageCode
-from extensions import FileExtension
-from file_repository import FileRepository
-from professors import LLMFileTranslator
-import rename_path
+from domain.languages import LanguageCode
+from domain.extensions import FileExtension
+from repository.file_repository import FileRepository
+from domain.professors import LLMFileTranslator
 
 class Translator:
     
@@ -66,25 +61,3 @@ class Translator:
             }
             for text in split_texts
         ]
-
-def main():
-    # parser setup
-    parser = argparse.ArgumentParser(description='Translate markdown files')
-    parser.add_argument('--file',type=str, help='file path to translate')
-    parser.add_argument('--language',type=str, default='ja', help='language code to translate to')
-    parser.add_argument('--replace', action='store_true', help='replace original files')
-    args = parser.parse_args()
-    
-    translator = Translator()
-    fileRepository  = FileRepository()
-    language_code = LanguageCode.from_str(args.language)
-    
-    save_path = args.file if args.replace else rename_path.get_renamed_path(args.file, language_code)
-    
-    fileRepository.save(
-        save_path,
-        translator.translate(save_path, language_code)
-    )
-    
-if __name__ == "__main__":
-    main()

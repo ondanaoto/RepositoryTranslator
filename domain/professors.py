@@ -1,8 +1,10 @@
 from typing import Any
+from abc import ABC, abstractmethod
+from openai import OpenAI
 
 import setting
 from prompt import *
-from abc import ABC, abstractmethod
+
 
 
 class LLM(ABC):
@@ -13,7 +15,9 @@ class LLM(ABC):
         
     def response(self, context: dict[str, Any]) -> str:
         prompt = self.make_prompt(context)
-        response = setting.CLIENT.chat.completions.create(
+        client = OpenAI(setting.OPENAI_API_KEY)
+        
+        response = client.chat.completions.create(
             model="gpt-4-1106-preview",
             messages=[message.to_dict() for message in prompt.messages],
             temperature=prompt.temperature
