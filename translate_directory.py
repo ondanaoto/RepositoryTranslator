@@ -6,6 +6,7 @@ from loguru import logger
 
 from languages import LanguageCode
 from translate_file import translate_and_save_file
+from path_repository import PathRepository
 
 def main():
     logger.remove()
@@ -20,8 +21,7 @@ def main():
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
     
     # fetch target file paths
-    with open("file_paths.txt", "r") as file:
-        target_file_paths = file.read().splitlines()
+    target_file_paths = PathRepository().read_all()
 
     # Translate and replace markdown files
     for file_path in target_file_paths:

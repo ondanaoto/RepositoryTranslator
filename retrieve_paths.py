@@ -2,7 +2,7 @@ import os, argparse
 from dataclasses import dataclass
 
 from extensions import FileExtension
-import setting
+from path_repository import PathRepository
 
 @dataclass(frozen=True)
 class PathRetriever:
@@ -33,8 +33,7 @@ def main():
     retriever = PathRetriever.from_file_ext_strs(args.extensions)
     
     path_list = retriever.retrieve(args.directory)
-    with open(setting.TRANSLATE_TARGET_FILES_PATH, "w") as file:
-        file.write("\n".join(path_list))
+    PathRepository().write(path_list)
     
 if __name__ == "__main__":
     main()
