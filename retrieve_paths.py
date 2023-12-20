@@ -1,26 +1,26 @@
 import os, argparse
-from typing import List
 from dataclasses import dataclass
 
 from extensions import FileExtension
+import setting
 
 @dataclass(frozen=True)
 class PathRetriever:
     
-    target_file_exts: List[FileExtension]
+    target_file_exts: list[FileExtension]
     
-    def retrieve(self, directory: str) -> None:
+    def retrieve(self, dir: str) -> list[str]:
         file_path_list = [
             os.path.join(root, file)
-            for root, _, files in os.walk(directory)
+            for root, _, files in os.walk(dir)
             for file in files
             if any(file.endswith(ext.value) for ext in self.target_file_exts)
         ]
-        with open("file_paths.txt", "w") as file:
-            file.write("\n".join(file_path_list))
+        
+        return file_path_list
             
     @classmethod
-    def from_file_ext_strs(cls, ext_strs: List[str]) -> "PathRetriever":
+    def from_file_ext_strs(cls, ext_strs: list[str]) -> "PathRetriever":
         file_extensions = list(map(FileExtension.from_str, ext_strs))
         return PathRetriever(file_extensions)
         
@@ -31,7 +31,10 @@ def main():
     args = parser.parse_args()
     
     retriever = PathRetriever.from_file_ext_strs(args.extensions)
-    retriever.retrieve(args.directory)
+    
+    path_list = retriever.retrieve(args.directory)
+    with open(setting.TRANSLATE_TARGET_FILES_PATH, "w") as file:
+        file.write("\n".join(path_list))
     
 if __name__ == "__main__":
     main()
