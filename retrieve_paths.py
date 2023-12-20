@@ -1,6 +1,6 @@
 import os, argparse
 from typing import List
-from constants import FileExtension, str_to_file_extension
+from constants import FileExtension, parse_file_extension
 
 def extract_file_paths(directory, file_extension_list: List[FileExtension]) -> None:
     file_path_list = [
@@ -18,7 +18,7 @@ def main():
     parser.add_argument('--extensions', nargs='+', type=str, default=['.md'], help='file extensions to extract')
     args = parser.parse_args()
     
-    file_extensions = list(map(str_to_file_extension, args.extensions))
+    file_extensions = list(map(parse_file_extension, args.extensions))
     
     extract_file_paths(args.directory, file_extensions)
     

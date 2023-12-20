@@ -3,7 +3,7 @@ import sys
 from loguru import logger
 from openai import OpenAI
 import argparse
-from constants import LanguageCode, FileExtension, str_to_language_code, str_to_file_extension
+from constants import LanguageCode, FileExtension, parse_language_code, parse_file_extension
 
 LAST_CHARACTERS = 100
 
@@ -56,7 +56,7 @@ def translate(text, file_extension: FileExtension, dst_language_code: LanguageCo
     return "\n\n".join(translated_segments)
 
 def translate_and_save_file(src_file_path, dst_language_code: LanguageCode, client= OpenAI(), replace=False):
-    extension = str_to_file_extension(os.path.splitext(src_file_path)[1])
+    extension = parse_file_extension(os.path.splitext(src_file_path)[1])
     logger.info(f"Translating {src_file_path} to {str(dst_language_code)} ...", end="")
     
     with open(src_file_path, "r") as file:
@@ -91,7 +91,7 @@ def main():
     # Translate and replace files
     translate_and_save_file(
         src_file_path=args.file, \
-        dst_language_code=str_to_language_code(args.language), \
+        dst_language_code=parse_language_code(args.language), \
         client=client, \
         replace=args.replace
     )

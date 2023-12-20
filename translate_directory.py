@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 from translate_file import translate_and_save_file
-from constants import str_to_language_code
+from constants import parse_language_code
 from openai import OpenAI
 from loguru import logger
 
@@ -27,7 +27,7 @@ def main():
     for file_path in target_file_paths:
         translate_and_save_file(
             file_path, \
-            dst_language_code=str_to_language_code(args.language), \
+            dst_language_code=parse_language_code(args.language), \
             client=client, \
             replace=args.replace
         )

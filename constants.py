@@ -48,7 +48,7 @@ class LanguageCode(Enum):
         }
         return language_names[self.value]
     
-def str_to_language_code(input_str) -> LanguageCode:
+def parse_language_code(input_str) -> LanguageCode:
     for lang in LanguageCode:
         if lang.value == input_str:
             return lang
@@ -70,7 +70,7 @@ class FileExtension(Enum):
     def __str__(self):
         return self.value
 
-def str_to_file_extension(input_str) -> FileExtension:
+def parse_file_extension(input_str) -> FileExtension:
     for ext in FileExtension:
         if ext.value == input_str:
             return ext
