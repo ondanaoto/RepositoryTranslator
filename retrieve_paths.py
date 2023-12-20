@@ -1,8 +1,9 @@
 import os, argparse
 from typing import List
-from extensions import FileExtension, parse_file_extension
 
-def extract_file_paths(directory, file_extension_list: List[FileExtension]) -> None:
+import extensions as ext
+
+def extract_file_paths(directory, file_extension_list: List[ext.FileExtension]) -> None:
     file_path_list = [
         os.path.join(root, file)
         for root, _, files in os.walk(directory)
@@ -18,7 +19,7 @@ def main():
     parser.add_argument('--extensions', nargs='+', type=str, default=['.md'], help='file extensions to extract')
     args = parser.parse_args()
     
-    file_extensions = list(map(parse_file_extension, args.extensions))
+    file_extensions = list(map(ext.parse_file_extension, args.extensions))
     
     extract_file_paths(args.directory, file_extensions)
     

@@ -3,12 +3,13 @@ import sys
 from loguru import logger
 from openai import OpenAI
 import argparse
-from extensions import FileExtension, parse_file_extension
-from languages import LanguageCode, parse_language_code
+
+import languages as lang
+import extensions as ext
 
 LAST_CHARACTERS = 100
 
-def translate_segment(text, file_extension: FileExtension, dst_language_code: LanguageCode, client= OpenAI()):
+def translate_segment(text, file_extension: ext.FileExtension, dst_language_code: lang.LanguageCode, client= OpenAI()):
     prompt = f"In cases where the document is lengthy, it's not necessary to forcibly summarize the entire content. If the translation needs to be cut short due to the document's length, that's perfectly fine. Please translate the following {str(file_extension)} file into {str(dst_language_code)} and return only the translation content. \n\nFile content:\n{text}"
     response_texts = []
     
@@ -49,15 +50,15 @@ def split_text(text, max_tokens=1024) -> list[str]:
         logger.debug(f"Each segment first 100 tokens: {segment.split()[:100]}")
     return segments
 
-def translate(text, file_extension: FileExtension, dst_language_code: LanguageCode, client= OpenAI()):
+def translate(text, file_extension: ext.FileExtension, dst_language_code: lang.LanguageCode, client= OpenAI()):
     segments = split_text(text)
     translated_segments = []
     for segment in segments:
         translated_segments.append(translate_segment(segment, file_extension, dst_language_code, client=client))
     return "\n\n".join(translated_segments)
 
-def translate_and_save_file(src_file_path, dst_language_code: LanguageCode, client= OpenAI(), replace=False):
-    extension = parse_file_extension(os.path.splitext(src_file_path)[1])
+def translate_and_save_file(src_file_path, dst_language_code: lang.LanguageCode, client= OpenAI(), replace=False):
+    extension = ext.parse_file_extension(os.path.splitext(src_file_path)[1])
     logger.info(f"Translating {src_file_path} to {str(dst_language_code)} ...", end="")
     
     with open(src_file_path, "r") as file:
@@ -92,7 +93,7 @@ def main():
     # Translate and replace files
     translate_and_save_file(
         src_file_path=args.file, \
-        dst_language_code=parse_language_code(args.language), \
+        dst_language_code=lang.parse_language_code(args.language), \
         client=client, \
         replace=args.replace
     )
