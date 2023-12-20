@@ -2,7 +2,7 @@ import os
 import sys
 import argparse
 from translate_file import translate_and_save_file
-from constants import parse_language_code
+from languages import parse_language_code
 from openai import OpenAI
 from loguru import logger
 
