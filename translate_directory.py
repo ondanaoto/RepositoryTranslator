@@ -1,4 +1,5 @@
 import argparse
+from loguru import logger
 
 from domain.languages import LanguageCode
 import service.file_translator as file_translator 
@@ -7,6 +8,8 @@ from repository.file_repository import FileRepository
 from repository.path_repository import PathRepository
 
 def main():
+    logger.remove()
+    logger.add(sink="logs/translate_directory.log", level="INFO")
     # parser setup
     parser = argparse.ArgumentParser(description='Translate markdown files')
     parser.add_argument('--replace', action='store_true', help='replace original files')

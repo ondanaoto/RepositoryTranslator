@@ -11,11 +11,13 @@ class Translator:
     
     SEGMENT_LENGTH_LIMIT = 1024
     SPLIT_SYMBOL = "\n\n"
+    file_repository = FileRepository()
+    llm_file_translator = LLMFileTranslator()
     
     def translate(self, file_path: str, language_code: LanguageCode) -> str:
         segments = []
         for context in self._get_contexts(file_path, language_code):
-            segment = LLMFileTranslator().response(context)
+            segment = self.llm_file_translator.response(context)
             segments.append(segment)
 
         return self.SPLIT_SYMBOL.join(segments)
@@ -46,12 +48,12 @@ class Translator:
             logger.debug(f"Each segment first {debug_token_size} tokens: {segment.split()[:debug_token_size]}")
         return segments
     
-    def _get_file_ext(file_path: str) -> FileExtension:
+    def _get_file_ext(self, file_path: str) -> FileExtension:
         return FileExtension.from_str(os.path.splitext(file_path)[1])
     
     def _get_contexts(self, file_path: str, language_code: LanguageCode) -> list[dict[str, Any]]:
         file_ext = self._get_file_ext(file_path)
-        raw_text = FileRepository.load(file_path)
+        raw_text = self.file_repository.load(file_path)
         split_texts = self._split_text(raw_text)
         return [
             {

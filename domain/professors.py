@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from openai import OpenAI
 
 import setting
-from prompt import *
+from domain.prompt import *
 
 
 
@@ -15,7 +15,7 @@ class LLM(ABC):
         
     def response(self, context: dict[str, Any]) -> str:
         prompt = self.make_prompt(context)
-        client = OpenAI(setting.OPENAI_API_KEY)
+        client = OpenAI(api_key=setting.OPENAI_API_KEY)
         
         response = client.chat.completions.create(
             model="gpt-4-1106-preview",
