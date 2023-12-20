@@ -17,7 +17,7 @@ class FileExtension(Enum):
         return self.value
     
     @classmethod
-    def from_str(cls, input_str) -> "FileExtension":
+    def from_str(cls, input_str: str) -> "FileExtension":
         for ext in FileExtension:
             if ext.value == input_str:
                 return ext
