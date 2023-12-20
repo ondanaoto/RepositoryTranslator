@@ -1,8 +1,8 @@
 import argparse
 
 from domain.languages import LanguageCode
-import service.translate_file as translate_file 
-import service.rename_path as rename_path
+import service.file_translator as file_translator 
+import service.path_renamer as path_renamer
 from repository.file_repository import FileRepository
 from repository.path_repository import PathRepository
 
@@ -18,13 +18,13 @@ def main():
     file_repository = FileRepository()
     
     #prepare translator
-    translator = translate_file.Translator()
+    translator = file_translator.Translator()
     
     language_code = LanguageCode.from_str(args.language)
 
     # Translate and replace markdown files
     for file_path in path_repository.read_all():
-        save_path = file_path if args.replace else rename_path.get_renamed_path(file_path, language_code)
+        save_path = file_path if args.replace else path_renamer.get_renamed_path(file_path, language_code)
         translated_text = translator.translate(file_path, language_code)
         
         file_repository.save(save_path, translated_text)
