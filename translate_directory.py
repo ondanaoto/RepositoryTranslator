@@ -27,7 +27,7 @@ def main():
     for file_path in target_file_paths:
         translate_and_save_file(
             file_path, \
-            dst_language_code=lang.parse_language_code(args.language), \
+            dst_language_code=lang.parse(args.language), \
             client=client, \
             replace=args.replace
         )

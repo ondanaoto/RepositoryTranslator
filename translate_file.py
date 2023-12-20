@@ -58,7 +58,7 @@ def translate(text, file_extension: ext.FileExtension, dst_language_code: lang.L
     return "\n\n".join(translated_segments)
 
 def translate_and_save_file(src_file_path, dst_language_code: lang.LanguageCode, client= OpenAI(), replace=False):
-    extension = ext.parse_file_extension(os.path.splitext(src_file_path)[1])
+    extension = ext.parse(os.path.splitext(src_file_path)[1])
     logger.info(f"Translating {src_file_path} to {str(dst_language_code)} ...", end="")
     
     with open(src_file_path, "r") as file:
@@ -93,7 +93,7 @@ def main():
     # Translate and replace files
     translate_and_save_file(
         src_file_path=args.file, \
-        dst_language_code=lang.parse_language_code(args.language), \
+        dst_language_code=lang.parse(args.language), \
         client=client, \
         replace=args.replace
     )

@@ -19,7 +19,7 @@ def main():
     parser.add_argument('--extensions', nargs='+', type=str, default=['.md'], help='file extensions to extract')
     args = parser.parse_args()
     
-    file_extensions = list(map(ext.parse_file_extension, args.extensions))
+    file_extensions = list(map(ext.parse, args.extensions))
     
     extract_file_paths(args.directory, file_extensions)
     

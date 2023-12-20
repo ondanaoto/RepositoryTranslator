@@ -47,7 +47,7 @@ class LanguageCode(Enum):
         }
         return language_names[self.value]
     
-def parse_language_code(input_str) -> LanguageCode:
+def parse(input_str) -> LanguageCode:
     for lang in LanguageCode:
         if lang.value == input_str:
             return lang
