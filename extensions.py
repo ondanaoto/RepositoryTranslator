@@ -15,9 +15,10 @@ class FileExtension(Enum):
     
     def __str__(self):
         return self.value
-
-def parse(input_str) -> FileExtension:
-    for ext in FileExtension:
-        if ext.value == input_str:
-            return ext
-    raise ValueError(f"No matching enum for string: {input_str}")
+    
+    @classmethod
+    def from_str(cls, input_str) -> "FileExtension":
+        for ext in FileExtension:
+            if ext.value == input_str:
+                return ext
+        raise ValueError(f"No matching enum for string: {input_str}")

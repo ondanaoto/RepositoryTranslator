@@ -1,6 +1,5 @@
 from enum import Enum, unique
 
-
 @unique
 class LanguageCode(Enum):
     JAPAN = 'ja'
@@ -47,8 +46,9 @@ class LanguageCode(Enum):
         }
         return language_names[self.value]
     
-def parse(input_str) -> LanguageCode:
-    for lang in LanguageCode:
-        if lang.value == input_str:
-            return lang
-    raise ValueError(f"No matching enum for string: {input_str}")
+    @classmethod
+    def from_str(cls, input_str) -> "LanguageCode":
+        for lang in LanguageCode:
+            if lang.value == input_str:
+                return lang
+        raise ValueError(f"No matching enum for string: {input_str}")
